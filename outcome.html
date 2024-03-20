@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Money Tracker - Outcome</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<style>
+  .navbar {
+    background-color: #343a40 !important; 
+  }
+  .navbar-brand, .navbar-nav .nav-link {
+    color: #ffffff !important; 
+  }
+  .bg-overlay {
+    position: absolute;
+    top: 56px; 
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 56px); 
+    background-image: url('Keempat-Gedung-Kampus-Universitas-Multimedia-Nusantara.jpg'); 
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3; 
+    z-index: -1; 
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-overlay"></div> 
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">Money Tracker</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="main.html">Main</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="income.html">Income</a> 
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Outcome</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="aboutus.html">About Us</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-md-6">
+      <h4>Outcome Form</h4>
+      <form id="outcomeForm">
+        <div class="mb-3">
+          <label for="outcomeName" class="form-label">Nama Transaksi</label>
+          <input type="text" class="form-control" id="outcomeName" name="outcomeName" required>
+        </div>
+        <div class="mb-3">
+          <label for="outcomeAmount" class="form-label">Nominal Transaksi</label>
+          <input type="number" class="form-control" id="outcomeAmount" name="outcomeAmount" required>
+        </div>
+        <div class="mb-3">
+          <label for="outcomeCategory" class="form-label">Kategori Transaksi</label>
+          <select class="form-select" id="outcomeCategory" name="outcomeCategory" required>
+            <option value="">Pilih kategori...</option>
+            <option value="Makan">Makan</option>
+            <option value="Main">Main</option>
+            <option value="Edukasi">Edukasi</option>
+            <option value="Belanja">Belanja</option>
+            <option value="Lainnya">Lainnya</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  $('#outcomeForm').submit(function(event) {
+    event.preventDefault();
+    var outcomeName = $('#outcomeName').val();
+    var outcomeAmount = parseInt($('#outcomeAmount').val());
+    var outcomeCategory = $('#outcomeCategory').val();
+
+    
+    if (outcomeName && outcomeAmount && outcomeCategory) {
+      
+      alert('Transaksi sukses!');
+      
+      $('#outcomeForm')[0].reset();
+
+      
+      var transaction = {
+        type: 'outcome',
+        name: outcomeName,
+        amount: outcomeAmount,
+        category: outcomeCategory
+      };
+      var transactions = localStorage.getItem('transactions');
+      if (transactions) {
+        transactions = JSON.parse(transactions);
+        transactions.push(transaction);
+      } else {
+        transactions = [transaction];
+      }
+      localStorage.setItem('transactions', JSON.stringify(transactions));
+
+      window.location.href = "main.html";
+    } else {
+      alert('Transaksi belum selesai, silakan lengkapi formulir!');
+    }
+  });
+});
+</script>
+
+</body>
+</html>
